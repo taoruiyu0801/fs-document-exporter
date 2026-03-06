@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PDF 预览</title>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: #d0d7e2;
+      --ok: #0f766e;
+      --run: #1d4ed8;
+      --err: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans SC", "Microsoft YaHei UI", "Segoe UI", sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .meta {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .meta strong {
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .meta span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--run);
+      font-weight: 600;
+    }
+
+    .status.success { color: var(--ok); }
+    .status.error { color: var(--err); }
+
+    main {
+      padding: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #content {
+      background: var(--panel);
+      width: min(980px, 100%);
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 8px 26px rgba(15, 23, 42, 0.1);
+    }
+
+    #content img {
+      max-width: 100% !important;
+      width: auto !important;
+      height: auto !important;
+      max-height: none !important;
+      object-fit: contain;
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm 10mm;
+      }
+      body {
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      header {
+        display: none;
+      }
+      main {
+        padding: 0;
+      }
+      #content {
+        width: 100%;
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+      }
+      #content img {
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: none !important;
+        object-fit: contain;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      #content table {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+      }
+      #content tr,
+      #content td,
+      #content th,
+      #content pre,
+      #content blockquote {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      #content td,
+      #content th,
+      #content pre {
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="meta">
+      <strong id="docTitle">PDF 预览</strong>
+      <span id="docUrl">-</span>
+    </div>
+    <div id="status" class="status">等待渲染...</div>
+  </header>
+  <main>
+    <article id="content"></article>
+  </main>
+  <script type="module" src="doc-preview.js"></script>
+</body>
+</html>

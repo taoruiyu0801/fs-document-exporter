@@ -1,0 +1,73 @@
+{
+  "manifest_version": 3,
+  "name": "FS文档导出器 (开源版)",
+  "version": "0.1.0",
+  "description": "Lark/FS 网页文档高效导出扩展，支持 Markdown、HTML、PDF、DOCX。仅供学习交流，严禁商用。By Ray",
+  "author": "Ray",
+  "icons": {
+    "128": "icon128.png"
+  },
+  "minimum_chrome_version": "114",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "FS文档导出器",
+    "default_icon": {
+      "128": "icon128.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "permissions": [
+    "downloads",
+    "storage",
+    "tabs",
+    "webNavigation",
+    "scripting",
+    "sidePanel",
+    "debugger"
+  ],
+  "optional_permissions": [
+    "downloads.open"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.feishu.cn/*",
+        "https://*.feishu.net/*",
+        "https://*.larksuite.com/*",
+        "https://*.larkoffice.com/*",
+        "https://*.larkenterprise.com/*",
+        "https://*.feishu-pre.net/*"
+      ],
+      "js": [
+        "content-scripts/content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "injected*.js",
+        "image-processor.worker.js",
+        "utils/*.js",
+        "utils/exporters/*.js"
+      ],
+      "matches": [
+        "https://*.feishu.cn/*",
+        "https://*.feishu.net/*",
+        "https://*.larksuite.com/*",
+        "https://*.larkoffice.com/*",
+        "https://*.larkenterprise.com/*",
+        "https://*.feishu-pre.net/*"
+      ]
+    }
+  ]
+}
